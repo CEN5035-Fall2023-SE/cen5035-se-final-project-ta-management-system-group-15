@@ -1,0 +1,387 @@
+
+<?php
+include('includes/db.php');
+$inv = "SELECT COUNT(*) as count FROM invoices";
+
+// Execute the query
+$resultt = $conn->query($inv);
+
+if ($resultt->num_rows > 0) {
+    // Fetch the result as an associative array
+    $roww = $resultt->fetch_assoc();
+$year = "2023";
+    // Print the count of rows
+   $nh = $year.$roww["count"] +1;
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Rudhra Generators</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+<body>
+  <div class="container-scroller">
+  
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="navbar-brand-wrapper d-flex justify-content-center">
+        <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center">  
+          <a class="navbar-brand brand-logo" href="index.html"><img src="images/rudhralogo.png" width="100px" height="100px" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/rudhralogo.png" alt="logo"/></a>
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-sort-variant"></span>
+          </button>
+        </div>  
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav mr-lg-4 w-100">
+        
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+         
+        
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+              <img src="images/rudhralogo.png" alt="profile"/>
+              <span class="nav-profile-name">Rudhra Generators</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item">
+                <i class="mdi mdi-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
+                <i class="mdi mdi-logout text-primary"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      <?php include('includes/sidenav.php') ?>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          
+        
+        <!-- Form Starts Here -->
+      
+
+<form method="post" action="generate_invoice.php">
+     <!-- Invoice Information -->    <h1>Invoice Generator</h1>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <label for="invoice_number">Invoice Number:</label>
+        <input type="text" class="form-control" id="invoice_number" name="invoice_number" placeholder="Invoice No" readonly value="<?php echo $nh;  ?>">
+    </div>
+    <div class="col-md-6">
+        <label for="invoice_date">Invoice Date:</label>
+        <input type="date" class="form-control" id="invoice_date" name="invoice_date" value="<?php echo date('Y-m-d'); ?>" required>
+    </div>
+    
+    <div class="col-md-12"><br>
+        <h4 >Buyer Details</h4>
+    </div>
+    <div class="col-md-3">
+        <label for="buyer_gst_number">GST Number:</label>
+        <input type="text" class="form-control" id="buyer_gst_number" name="buyer_gst_number" placeholder="Enter GST Number">
+    </div>
+    <div class="col-md-4">
+        <label for="buyer_address">Buyer Name:</label>
+        <input type="text" class="form-control" id="buyer_address" name="buyer_name" placeholder="Enter Buyer Name">
+    </div>
+    <div class="col-md-4">
+        <label for="Contact Number">Contact Number:</label>
+        <input type="text" class="form-control" id="buyer_address" name="contcat" placeholder="Contact Number">
+    </div>
+    <div class="col-md-12">
+        <label for="buyer_address">Address:</label>
+        <input type="text" class="form-control" id="buyer_address" name="buyer_address" placeholder="Enter Address">
+    </div>
+
+  
+  
+
+  
+ 
+
+            <div class="col-md-12">
+                       <!--Product Details Starts here-->
+   <!-- Product Details -->
+   <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>Product Details</h3>
+                </div>
+            </div>
+           <!--  Dynamic From -->
+
+
+
+           <fieldset>
+    <legend class="text-info">Item Form</legend>
+    <div class="row justify-content-center align-items-end">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="item_id" class="control-label">Item</label>
+                <input type="text" class="form-control rounded-0" id="item_id">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="unit" class="control-label quantity">Quantity</label>
+                <input type="text" class="form-control rounded-0" id="unit">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="qty" class="control-label rate">Rate</label>
+                <input type="number" step="any" class="form-control rounded-0" id="qty">
+            </div>
+        </div>
+        <div class="col-md-2 text-center">
+            <div class="form-group">
+                <button type="button" class="btn btn-flat btn-sm btn-primary" id="add_to_list">Add to List</button>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width:10%">SNO</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>GST %</th>
+            <th>Amount</th>
+            <th>Action</th> <!-- New column for the action buttons -->
+        </tr>
+    </thead>
+    <tbody id="item_list">
+        <!-- Items will be added here dynamically -->
+    </tbody>
+</table>
+
+<!-- JavaScript code to handle the "Add to List" button click -->
+<script>
+    var currentSno = 1; // Initialize the current serial number
+    var totalAmount = 0; // Initialize the total amount
+    var totalCgst = 0; // Initialize the total CGST
+    var totalSgst = 0; // Initialize the total SGST
+    var grandtotal = 0; // Initialize the grand total
+    var tax = 0; // Initialize the total tax
+
+    document.getElementById('add_to_list').addEventListener('click', function() {
+        var itemId = document.getElementById('item_id').value;
+        var unit = document.getElementById('unit').value;
+        var qty = document.getElementById('qty').value;
+        var amount = unit * qty;
+
+        // Calculate CGST and SGST for this item (assuming 9% CGST and 9% SGST)
+        var cgst = (amount * 0.09);
+        var sgst = (amount * 0.09);
+        var taxx = (amount * 0.18);
+        var grand = (amount + taxx);
+
+        // Create a new row in the table and populate it with the selected item data and a delete button
+        var newRow = document.createElement('tr');
+        newRow.innerHTML = '<td><input type="text" class="form-control sno" name="sno[]" placeholder="S.No" value="' + currentSno + '"></td><td><input type="text" class="form-control" name="product_name[]" placeholder="Product Name" value="' + itemId + '"></td><td><input type="text" class="form-control quantity" name="quantity[]" placeholder="Quantity" value="' + unit + '"></td><td><input type="text" class="form-control rate" name="rate[]" placeholder="Rate" value="' + qty + '"></td><td><input type="text" class="form-control tax1" name="tax1[]" id="tax1" placeholder="GST" value="18%"></td><td><input type="text" class="form-control" name="amount[]" id="amount" placeholder="Amount" value="' + amount.toFixed(2) + '"></td><td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">Delete</button></td>';
+
+        // Append the new row to the table
+        document.getElementById('item_list').appendChild(newRow);
+
+        // Increment the serial number for the next item
+        currentSno++;
+
+        // Update the total amount
+        totalAmount += amount;
+
+        // Update the grand total
+        grandtotal += grand;
+
+        // Update the total CGST and SGST
+        totalCgst += cgst;
+        totalSgst += sgst;
+
+        // Update the total tax
+        tax += taxx;
+
+        updateTotalAmount();
+    });
+
+    // Function to remove the row when the delete button is clicked
+    function removeRow(button) {
+        var row = button.parentNode.parentNode;
+        var amountInput = row.querySelector('[name="amount[]"]');
+
+        // Update the total amount, grand total, CGST, SGST, and tax before removing the row
+        totalAmount -= parseFloat(amountInput.value);
+        grandtotal -= parseFloat(amountInput.value) + parseFloat(amountInput.value) * 0.18;
+        totalCgst -= (parseFloat(amountInput.value) * 0.09);
+        totalSgst -= (parseFloat(amountInput.value) * 0.09);
+        tax -= (parseFloat(amountInput.value) * 0.18);
+
+        row.remove();
+
+        // Update the serial numbers of the remaining rows
+        updateSerialNumbers();
+
+        // Update the total amount
+        updateTotalAmount();
+    }
+
+    // Function to update the serial numbers
+    function updateSerialNumbers() {
+        var rows = document.querySelectorAll('#item_list tr');
+        var updatedSno = 1;
+
+        // Iterate through all rows and update the serial numbers
+        rows.forEach(function(row) {
+            var snoInput = row.querySelector('.sno');
+            if (snoInput) {
+                snoInput.value = updatedSno;
+                updatedSno++;
+            }
+        });
+
+        currentSno = updatedSno; // Update the current serial number
+    }
+
+    // Function to update the total amount, CGST, SGST, and tax
+    function updateTotalAmount() {
+        // Update the total amount, CGST, SGST, grand total, and tax in the respective elements
+        document.getElementById('total_amount_input').textContent = totalAmount.toFixed(2);
+        document.getElementById('total_cgst_input').textContent = totalCgst.toFixed(2);
+        document.getElementById('total_sgst_input').textContent = totalSgst.toFixed(2);
+        document.getElementById('grandtotal').textContent = grandtotal.toFixed(2);
+        document.getElementById('tax').textContent = tax.toFixed(2);
+    }
+</script>
+
+
+
+
+
+
+   
+           <!--Dynamic Form Ending -->
+
+           
+        </tr>
+    </table>
+    
+
+
+
+
+
+
+     
+
+          <!--Product details ENds here-->
+        </div>
+
+        <!-- Calculate Total -->
+        <div class="row mt-4">
+        <div class="col-md-12">
+    <h6>Total Amount: <span id="total_amount_input">0.00</span></h6>
+    <table>
+    <tr>
+    <th>CGST 9%</th>
+    <td><p id="total_cgst_input"></p></td>
+</tr>
+<tr>
+    <th>SGST 9%</th>
+    <td><p id="total_sgst_input"></p></td> <!-- Use a unique ID for SGST -->
+</tr>
+<tr>
+    <th>Grand Total</th>
+    <td> <h4> <span id="grandtotal">0.00</span></h4></td>
+</tr>
+
+    </table>
+
+</div>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-success" value="Generate Invoice">
+            </div>
+        </div>
+    </form>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Form Ends Here --->
+       
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="#" target="_blank">Rudhra Generators </a>2021</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="#" target="_blank">CRM   </a> Rudhra Generators</span>
+        </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="vendors/base/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="vendors/chart.js/Chart.min.js"></script>
+  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <script src="js/data-table.js"></script>
+  <script src="js/jquery.dataTables.js"></script>
+  <script src="js/dataTables.bootstrap4.js"></script>
+  <!-- End custom js for this page-->
+
+  <script src="js/jquery.cookie.js" type="text/javascript"></script>
+</body>
+
+</html>
+

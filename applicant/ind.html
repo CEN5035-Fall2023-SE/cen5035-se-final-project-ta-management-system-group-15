@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="whatsappForm">
+        <label for="recipient_type">Recipient Type:</label>
+        <select id="recipient_type" required>
+            <option value="individual">Individual</option>
+            <option value="group">Group</option>
+        </select><br><br>
+    
+        <label for="to">Recipient Number:</label>
+        <input type="text" id="to" required><br><br>
+    
+        <label for="type">Message Type:</label>
+        <select id="type" required>
+            <option value="text">Text</option>
+            <option value="image">Image</option>
+            <option value="document">Document</option>
+        </select><br><br>
+    
+        <label for="message">Message:</label>
+        <textarea id="message" required></textarea><br><br>
+    
+        <label for="date">Date (Optional):</label>
+        <input type="text" id="date" placeholder="Y-m-d H:i:s"><br><br>
+    
+        <label for="tag">Tag (Optional):</label>
+        <input type="text" id="tag"><br><br>
+    
+        <label for="unique">Unique (Optional):</label>
+        <select id="unique">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select><br><br>
+    
+        <button type="button" id="sendButton">Send</button>
+    </form>
+    <script>
+const maxRetries = 3;
+let retries = 0;
+
+function sendRequest() {
+    fetch('https://18.234.4.124:3003/api/v1/messages', {
+        // ... other options ...
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Message sent successfully.');
+        } else {
+            alert('Failed to send the message. Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (retries < maxRetries) {
+            retries++;
+            // Retry the request after a delay
+            setTimeout(sendRequest, 1000); // Retry after 1 second
+        } else {
+            alert('Failed to send the message after multiple retries.');
+        }
+    });
+}
+
+// Initiate the first request
+sendRequest();
+
+
+
+      document.getElementById("sendButton").addEventListener("click", function () {
+    // Get user input
+    const recipientType = "individual"; // Hardcoded value
+    const to = "6289508618321"; // Hardcoded value
+    const type = "text"; // Hardcoded value
+    const message = "Dikirim dengan onesender.net"; // Hardcoded value
+    const date = "2025-12-30 00:00:00"; // Hardcoded value
+    const tag = "random-tag"; // Hardcoded value
+    const unique = true; // Hardcoded value
+    const kodeToken = "dk_66e5b6c99776471983ef32ea22aff22f"; // Replace with your actual token
+
+    // Prepare the data to send
+    const data = {
+        "recipient_type": recipientType,
+        "to": to,
+        "type": type,
+        "text": {
+            "body": message
+        },
+        "date": date,
+        "tag": tag,
+        "unique": unique
+    };
+
+    // Make the API request
+    fetch('https://18.234.4.124:3003/api/v1/messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + kodeToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Message sent successfully.');
+        } else {
+            alert('Failed to send the message. Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to send the message.');
+    });
+});
+
+
+    </script>
+</body>
+</html>
